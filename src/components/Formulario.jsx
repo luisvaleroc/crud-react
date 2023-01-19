@@ -1,15 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+
 import Error from './Error'
-const Formulario = () => {
+const Formulario = ({equipos, setEquipos, equipo, setEquipo}) => {
 
-
+   
      const  [nombre1, setNombre1] =    useState('');
      const  [puntaje1, setPuntaje1] =    useState('');
      const  [nombre2, setNombre2] =    useState('');
      const  [puntaje2, setPuntaje2] =    useState('');
 
      const [error, setError] = useState(false);
-    const handleSubmit = (e) => {
+    
+    const generarId = () => {
+      const random = Math.random().toString(36).substr(2);
+        const fecha = Date.now().toString(36)
+        return random + fecha
+    }
+
+    useEffect(()=> {
+      if(Object.keys(equipo).length > 0){
+         setNombre1(equipo.nombre1)
+         setPuntaje1(equipo.puntaje1)
+         setNombre2(equipo.nombre2)
+         setPuntaje2(equipo.puntaje2)
+      }
+    }, [equipo])
+  
+
+    
+     const handleSubmit = (e) => {
       e.preventDefault();
 
       if([nombre1, puntaje1, nombre2, puntaje2].includes('')){
@@ -17,6 +36,31 @@ const Formulario = () => {
         return;
       }
       setError(false);
+
+      const objetoEquipo = {
+         nombre1,
+         puntaje1,
+         nombre2,
+         puntaje2
+      }
+
+      if(equipo.id){
+         
+         objetoEquipo.id = equipo.id
+         const equiposActualizados = equipos.map(equipoState => equipoState.id === equipo.id ? objetoEquipo : equipoState )
+         setEquipos(equiposActualizados)
+         setEquipo({})
+      }else{
+         objetoEquipo.id = generarId()
+         setEquipos([...equipos, objetoEquipo]) 
+      }
+      
+
+      setNombre1('')
+      setPuntaje1('')
+      setNombre2('')
+      setPuntaje2('')
+
     }
 
   return (
@@ -28,10 +72,10 @@ const Formulario = () => {
    className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
    onSubmit={handleSubmit}
    >
-   { error &&  <Error/>  }
+   { error &&  <Error><p>Todos los campos son obligatorios</p></Error>  }
 
   <div className="mb-5">
-  <label className="block text-gray-700 text-sm font-bold mb-2" for="nombre1">
+  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nombre1">
         Nombre equipo 1
   </label>
      <input 
@@ -45,7 +89,7 @@ const Formulario = () => {
   </div>
 
   <div className="mb-5">
-  <label className="block text-gray-700 text-sm font-bold mb-2" for="puntaje1">
+  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="puntaje1">
         Puntaje equipo 1
   </label>
      <input 
@@ -59,7 +103,7 @@ const Formulario = () => {
   </div>
 
   <div className="mb-5">
-  <label className="block text-gray-700 text-sm font-bold mb-2" for="nombre2">
+  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nombre2">
         Nombre equipo 2
   </label>
      <input 
@@ -89,7 +133,7 @@ const Formulario = () => {
   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
   type="submit"
   >
-  Enviar Marcador
+  {equipo.id ? 'Editar Equipo' : 'Enviar Marcador' }
 </button>
    </form>
    </div>
