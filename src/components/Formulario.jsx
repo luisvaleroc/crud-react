@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import { crearEquipos } from '../services/crearEquipos';
 
 import Error from './Error'
 const Formulario = ({equipos, setEquipos, equipo, setEquipo}) => {
@@ -28,7 +29,7 @@ const Formulario = ({equipos, setEquipos, equipo, setEquipo}) => {
   
 
     
-     const handleSubmit = (e) => {
+     const handleSubmit = async (e) => {
       e.preventDefault();
 
       if([nombre1, puntaje1, nombre2, puntaje2].includes('')){
@@ -51,7 +52,10 @@ const Formulario = ({equipos, setEquipos, equipo, setEquipo}) => {
          setEquipos(equiposActualizados)
          setEquipo({})
       }else{
-         objetoEquipo.id = generarId()
+         /* objetoEquipo.id = generarId() */
+         const pruebaEquipo = await crearEquipos(objetoEquipo);
+         console.log(pruebaEquipo);
+         objetoEquipo.id = pruebaEquipo.id;
          setEquipos([...equipos, objetoEquipo]) 
       }
       
