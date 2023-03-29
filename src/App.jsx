@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import Formulario from './components/Formulario'
 import Header from './components/Header'
 import Listado from './components/Listado'
@@ -7,9 +6,8 @@ import useEquipos from './hooks/useEquipos'
 
 function App() {
 
-  const [equipo, setEquipo] = useState({});
 
-  const {setEquipos, equipos, eliminarEquipo} =   useEquipos(); 
+  const {setEquipos, equipos, eliminarEquipo, equipo, editarEequipo, setEquipo} =   useEquipos(); 
 
   return (
     <div className="container mx-auto mt-20">
@@ -19,11 +17,13 @@ function App() {
     setEquipos={setEquipos}
     equipos={equipos}
     equipo={equipo}
-    setEquipo={setEquipo}
+    //setEquipo={setEquipo}
+    editarEequipo={editarEequipo}
     />
     <Listado
     equipos={equipos}
     setEquipo={setEquipo}
+    //editarEequipo={editarEequipo}
     eliminarEquipo={eliminarEquipo}
     />
     </div>

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { crearEquipos } from '../services/crearEquipos';
+import { editarEquipos } from '../services/editarEquipos';
 
 import Error from './Error'
-const Formulario = ({equipos, setEquipos, equipo, setEquipo}) => {
+const Formulario = ({equipos, setEquipos, equipo, editarEequipo}) => {
 
    
      const  [nombre1, setNombre1] =    useState('');
@@ -48,15 +49,12 @@ const Formulario = ({equipos, setEquipos, equipo, setEquipo}) => {
       if(equipo.id){
          
          objetoEquipo.id = equipo.id
-         const equiposActualizados = equipos.map(equipoState => equipoState.id === equipo.id ? objetoEquipo : equipoState )
-         setEquipos(equiposActualizados)
-         setEquipo({})
+         editarEequipo(objetoEquipo);
       }else{
          /* objetoEquipo.id = generarId() */
          const pruebaEquipo = await crearEquipos(objetoEquipo);
-         console.log(pruebaEquipo);
          objetoEquipo.id = pruebaEquipo.id;
-         setEquipos([...equipos, objetoEquipo]) 
+         setEquipos([...equipos, pruebaEquipo]) 
       }
       
 

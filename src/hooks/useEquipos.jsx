@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { axiosEquipos } from '../services/axiosEquipos';
 import { deleteEquipos } from '../services/deleteEquipos';
+import { editarEquipos } from '../services/editarEquipos';
 
 
 
@@ -8,7 +9,7 @@ import { deleteEquipos } from '../services/deleteEquipos';
 const useEquipos = () => {
  
     const [equipos, setEquipos] = useState([]);
-
+    const [equipo, setEquipo] = useState({});
    
    
     const obtenerLS = async() => {
@@ -33,16 +34,23 @@ const useEquipos = () => {
 
        await  deleteEquipos(id);
         const equiposActualizados = equipos.filter(equipo => equipo.id !== id)
-        console.log(equipos2)
       setEquipos(equiposActualizados);
     }
  
- 
+    const editarEequipo = (objetoEquipo) => {
+      const equiposActualizados = equipos.map(equipoState => equipoState.id === equipo.id ? objetoEquipo : equipoState )
+      editarEquipos(objetoEquipo)
+      setEquipos(equiposActualizados)
+      setEquipo({})
+    }
  
     return {
         eliminarEquipo,
         equipos,
-        setEquipos
+        setEquipos,
+        editarEequipo,
+        equipo,
+        setEquipo
         
 }
 }

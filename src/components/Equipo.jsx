@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Equipo = ({equipo, setEquipo, eliminarEquipo}) => {
-    
+    console.log(equipo)
     const {nombre1, puntaje1, nombre2, puntaje2, id} = equipo
 
     const handleEliminar = () => {
@@ -11,7 +11,7 @@ const Equipo = ({equipo, setEquipo, eliminarEquipo}) => {
             eliminarEquipo(id)
         }
     }
-  
+  console.log(equipo, "e")
     return (
     <>
        <div className="w-full max-w-md p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700 mb-5">
